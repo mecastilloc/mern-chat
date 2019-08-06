@@ -7,7 +7,7 @@ var logger = require('morgan');
 //var http = require('http');
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
-const HTTPport = process.env.HTTPport ||8000;
+
 const app = express();
 var routes = require('./routes');
 //==========original===========
@@ -34,13 +34,13 @@ var routes = require('./routes');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 io.on('connection', function(socket){
-  socket.on('chat message', function(msg){
-    io.emit('chat message', msg);
+  socket.on('SEND_MESSAGE', function(msg){
+    io.emit('RECEIVE_MESSAGE', msg);
   });
 });
 
-http.listen(HTTPport, function(){
-  console.log('http listening on *: '+ HTTPport);
+http.listen(PORT, function(){
+  console.log('http listening on *: '+ PORT);
 });
 
 
@@ -61,9 +61,9 @@ app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mern-chat", {useNewUrlParser: true});
+//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mern-chat", {useNewUrlParser: true});
 
 
-app.listen(PORT, function() {
-  console.log(`🌎 ==> API server now on port ${PORT}!`);
-});
+// app.listen(PORT, function() {
+//   console.log(`🌎 ==> API server now on port ${PORT}!`);
+// });
