@@ -12,7 +12,8 @@ class Chat extends React.Component{
             messages: []
         };
 
-        this.socket = io('localhost:5000');
+       // this.socket = io('localhost:5000');
+        this.socket = io.connect('mern-chat-prototype.herokuapp.com/:5000');
 
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
