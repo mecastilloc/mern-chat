@@ -12,7 +12,7 @@ class Chat extends React.Component{
             messages: []
         };
 
-        this.socket = io('/');
+        this.socket = io('localhost:5000');
 
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
@@ -81,12 +81,12 @@ class Chat extends React.Component{
                     <div className="col-4">
                         <div className="card">
                             <div className="card-body">
-                                <div className="card-title">Global Chat 01</div>
+                                <div className="card-title">Global Chat 02</div>
                                 <hr/>
                                 <div className="messages">
                                     {this.state.messages.map(message => {
                                         return (
-                                            <div>{message.author}: {message.message}</div>
+                                            <div key= {message.author}>{message.author}: {message.message}</div>
                                         )
                                     })}
                                 </div>

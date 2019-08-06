@@ -2,30 +2,46 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const express = require("express");
 const path = require("path");
-const socket = require('socket.io');
+
 var logger = require('morgan');
-var http = require('http');
+//var http = require('http');
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
 const app = express();
 var routes = require('./routes');
+//==========original===========
+// const socket = require('socket.io');
+// var httpServer = http.createServer(app);
+// httpServer.listen(5000, function(){
+//   console.log('server is running on port 5000')
+// });
 
-var httpServer = http.createServer(app);
-httpServer.listen(5000, function(){
-  console.log('server is running on port 5000')
-});
 
 
+// io = socket(httpServer);
 
-io = socket(httpServer);
+// io.on('connection', (socket) => {
+//   console.log("scketID=" +socket.id);
 
-io.on('connection', (socket) => {
-  console.log("scketID=" +socket.id);
+//   socket.on('SEND_MESSAGE', function(data){
+//       io.emit('RECEIVE_MESSAGE', data);
+//   })
+// });
 
+//==========original===========
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+io.on('connection', function(socket){
   socket.on('SEND_MESSAGE', function(data){
-      io.emit('RECEIVE_MESSAGE', data);
-  })
+    io.emit('RECEIVE_MESSAGE', data);
+  });
 });
+
+http.listen(5000, function(){
+  console.log('http listening on *: 5000');
+});
+
 
 // Serve up static assets (usually on heroku)
 if (process.env.NODE_ENV === "production") {
