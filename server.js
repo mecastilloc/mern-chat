@@ -7,6 +7,7 @@ var logger = require('morgan');
 //var http = require('http');
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
+const HTTPport = process.env.HTTPport ||8000;
 const app = express();
 var routes = require('./routes');
 //==========original===========
@@ -33,13 +34,13 @@ var routes = require('./routes');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 io.on('connection', function(socket){
-  socket.on('SEND_MESSAGE', function(data){
-    io.emit('RECEIVE_MESSAGE', data);
+  socket.on('chat message', function(msg){
+    io.emit('chat message', msg);
   });
 });
 
-http.listen(5000, function(){
-  console.log('http listening on *: 5000');
+http.listen(HTTPport, function(){
+  console.log('http listening on *: '+ HTTPport);
 });
 
 

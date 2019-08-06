@@ -1,6 +1,8 @@
 import React from "react";
-import io from "socket.io-client";
+import axios from "axios";
 import API from "../../utils/API";
+import "./style.css";
+//import { eventNames } from "cluster";
 
 class Chat extends React.Component{
     constructor(props){
@@ -13,11 +15,9 @@ class Chat extends React.Component{
         };
 
        // this.socket = io('localhost:5000');
-        this.socket = io.connect('mern-chat-prototype.herokuapp.com/:5000');
+        
 
-        this.socket.on('RECEIVE_MESSAGE', function(data){
-            addMessage(data);
-        });
+       
 
         const addMessage = data => {
             console.log(data);
@@ -35,19 +35,24 @@ class Chat extends React.Component{
             }
             console.log("chat data ")
             console.log(chatData)
-            API.saveChat(chatData)
-                            .then((res) => {
-                                console.log(res);
-                            })
-                            .catch(err => {
-                                console.log(err);
-                            });
-
-
-            this.socket.emit('SEND_MESSAGE', {
-                author: this.state.username,
-                message: this.state.message
+            axios({
+                method: "POST",
+      url: "/send",
+      data: chatData
+            }).then(response=>{
+                console.log("repomse de axios send chat:" +response.data)
+                API.saveChat(chatData)
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
             })
+            
+
+
+            
             
             
                         
@@ -77,33 +82,39 @@ class Chat extends React.Component{
     }
     render(){
         return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <div className="card-title">Global Chat 02</div>
-                                <hr/>
-                                <div className="messages">
-                                    {this.state.messages.map(message => {
-                                        return (
-                                            <div key= {message.author}>{message.author}: {message.message}</div>
-                                        )
-                                    })}
-                                </div>
+            // <div className="container">
+            //     <div className="row">
+            //         <div className="col-4">
+            //             <div className="card">
+            //                 <div className="card-body">
+            //                     <div className="card-title">Global Chat 04 </div>
+            //                     <hr/>
+            //                     <div className="messages">
+            //                         {this.state.messages.map(message => {
+            //                             return (
+            //                                 <div key= {message.author}>{message.author}: {message.message}</div>
+            //                             )
+            //                         })}
+            //                     </div>
 
-                            </div>
-                            <div className="card-footer">
-                                <input id="author"type="text" placeholder="Username" value={this.state.username} onChange={ev => this.setState({username: ev.target.value})} className="form-control"/>
-                                <br/>
-                                <input id="message" type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
-                                <br/>
-                                <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            //                 </div>
+            //                 <div className="card-footer">
+            //                     <input id="author"type="text" placeholder="Username" value={this.state.username} onChange={ev => this.setState({username: ev.target.value})} className="form-control"/>
+            //                     <br/>
+            //                     <input id="message" type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
+            //                     <br/>
+            //                     <button onClick={this.sendMessage} className="btn btn-primary form-control">Send</button>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
+<>
+            <ul id="messages"></ul>
+    <form action="">
+      <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+    </>
         );
     }
 }
