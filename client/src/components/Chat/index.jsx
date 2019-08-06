@@ -12,7 +12,7 @@ class Chat extends React.Component{
             messages: []
         };
 
-        this.socket = io('mern-chat-prototype.herokuapp.com/:5000');
+        this.socket = io('/');
 
         this.socket.on('RECEIVE_MESSAGE', function(data){
             addMessage(data);
@@ -81,7 +81,7 @@ class Chat extends React.Component{
                     <div className="col-4">
                         <div className="card">
                             <div className="card-body">
-                                <div className="card-title">Global Chat</div>
+                                <div className="card-title">Global Chat 01</div>
                                 <hr/>
                                 <div className="messages">
                                     {this.state.messages.map(message => {

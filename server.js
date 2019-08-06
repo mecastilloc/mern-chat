@@ -4,19 +4,20 @@ const express = require("express");
 const path = require("path");
 const socket = require('socket.io');
 var logger = require('morgan');
+var http = require('http');
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3001;
 const app = express();
 var routes = require('./routes');
 
-
-server = app.listen(5000, function(){
+var httpServer = http.createServer(app);
+httpServer.listen(5000, function(){
   console.log('server is running on port 5000')
 });
 
 
 
-io = socket(server);
+io = socket(httpServer);
 
 io.on('connection', (socket) => {
   console.log("scketID=" +socket.id);
