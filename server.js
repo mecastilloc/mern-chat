@@ -19,7 +19,7 @@ server = app.listen(5000, function(){
 io = socket(server);
 
 io.on('connection', (socket) => {
-  console.log(socket.id);
+  console.log("scketID=" +socket.id);
 
   socket.on('SEND_MESSAGE', function(data){
       io.emit('RECEIVE_MESSAGE', data);
