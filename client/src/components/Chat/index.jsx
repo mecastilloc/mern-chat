@@ -34,13 +34,13 @@ class Chat extends React.Component{
             }
             console.log("chat data ")
             console.log(chatData)
-            // API.saveChat(chatData)
-            //                 .then((res) => {
-            //                     console.log(res);
-            //                 })
-            //                 .catch(err => {
-            //                     console.log(err);
-            //                 });
+            API.saveChat(chatData)
+                            .then((res) => {
+                                console.log(res);
+                            })
+                            .catch(err => {
+                                console.log(err);
+                            });
 
 
             this.socket.emit('SEND_MESSAGE', {
@@ -81,7 +81,7 @@ class Chat extends React.Component{
                     <div className="col-4">
                         <div className="card">
                             <div className="card-body">
-                                <div className="card-title">Global Chat 9</div>
+                                <div className="card-title">Global Chat 10</div>
                                 <hr/>
                                 <div className="messages">
                                     {this.state.messages.map(message => {
