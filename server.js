@@ -43,7 +43,7 @@ app.get("*", function(req, res) {
   res.sendFile(path.join(__dirname, "./client/build/index.html"));
 });
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/teamorganizer", {useNewUrlParser: true});
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost:27017/mern-chat", {useNewUrlParser: true});
 
 
 app.listen(PORT, function() {
